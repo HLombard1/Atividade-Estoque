@@ -1,0 +1,14 @@
+----------------------------------------------------------------------------------------------------------------------------------------
+
+Sistema de Gerenciamento de Estoque
+
+O Sistema de Gerenciamento de Estoque é pagina web simples desenvolvida para realizar o controle de produtos,
+permitindo o cadastro, visualização, edição e remoção de itens em estoque.
+
+O projeto utiliza PHP, MySQL e HTML para executar o sistema, é necessário ter o XAMPP instalado.
+
+A tabela produtos possui os campos id, nome, categoria, descricao, preco, quantidade_estoque e data_validade.
+
+A página inicial lista todos os produtos salvos em uma tabela e disponibiliza um formulário para o cadastro de novos itens. 
+Ao clicar na ação de editar em um item da lista, o sistema redireciona para a tela de alteração
+onde os dados atuais são carregados para atualização. A ação de excluir remove o registro selecionado.

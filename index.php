@@ -1,5 +1,6 @@
 <?php
 include "infra/conexao.php";
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $nome = $_POST["nome"];
     $categoria = $_POST["categoria"];
@@ -8,13 +9,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $quantidade_estoque = $_POST["quantidade_estoque"];
     $data_validade = $_POST["data_validade"];
 
-    $sql = "INSERT INTO produtos (nome, categoria, descricao, preco, quantidade_estoque, data_validade) VALUES ('$nome', '$categoria', '$descricao', '$preco', '$quantidade_estoque', '$data_validade')";
+    $sql = "INSERT INTO produtos 
+    (nome, categoria, descricao, preco, quantidade_estoque, data_validade) 
+    VALUES (?, ?, ?, ?, ?, ?)";
 
-    if ($conexao->query($sql) === TRUE) {
-        echo "Produto cadastrado com sucesso!";
-    } else {
-        echo "Erro ao cadastrar produto: " . $conexao->error;
-    }
+    $stmt = $conexao->prepare($sql);
+
+    $stmt->bind_param(
+        "sssdis",
+        $nome,
+        $categoria,
+        $descricao,
+        $preco,
+        $quantidade_estoque,
+        $data_validade
+    );
+
+    $stmt->close();
 }
 
 $produtos = $conexao->query("SELECT * FROM produtos");
@@ -27,6 +38,7 @@ $produtos = $conexao->query("SELECT * FROM produtos");
     <title>Estoque</title>
 </head>
 <body>
+
     <h1>Cadastre um Produto Bro!</h1>
 
     <form action="" method="POST">
@@ -46,9 +58,8 @@ $produtos = $conexao->query("SELECT * FROM produtos");
 
         <br>
 
-        
         Descrição <br>
-        <textarea name="descricao"  required></textarea>
+        <textarea name="descricao" required></textarea>
 
         <br>
 
@@ -83,25 +94,31 @@ $produtos = $conexao->query("SELECT * FROM produtos");
                 <th>Quantidade no Estoque</th>
                 <th>Data de Validade</th>
             </tr>
-        </thead> 
-        <tbody>
-            <?php while ($produto = mysqli_fetch_assoc($produtos)) { ?>
-                    <tr>
-                        <td><?php echo $produto["id"] ?></td>
-                        <td><?php echo $produto["nome"] ?></td>
-                        <td><?php echo $produto["categoria"] ?></td>
-                        <td><?php echo $produto["descricao"] ?></td>
-                        <td><?php echo $produto["preco"] ?></td>
-                        <td><?php echo $produto["quantidade_estoque"] ?></td>
-                        <td><?php echo $produto["data_validade"] ?></td>
+        </thead>
 
-                        <td>
-                            <a href="public/editar.php?id=<?php echo $produto["id"] ?>">Editar</a>
-                            <a href="public/excluir.php?id=<?php echo $produto["id"] ?>">Excluir</a>
-                        </td>
-                    </tr>
-                <?php } ?>
+        <tbody>
+
+            <?php while ($produto = mysqli_fetch_assoc($produtos)) { ?>
+
+                <tr>
+                    <td><?php echo $produto["id"] ?></td>
+                    <td><?php echo $produto["nome"] ?></td>
+                    <td><?php echo $produto["categoria"] ?></td>
+                    <td><?php echo $produto["descricao"] ?></td>
+                    <td><?php echo $produto["preco"] ?></td>
+                    <td><?php echo $produto["quantidade_estoque"] ?></td>
+                    <td><?php echo $produto["data_validade"] ?></td>
+
+                    <td>
+                        <a href="public/editar.php?id=<?php echo $produto["id"] ?>">Editar</a>
+                        <a href="public/excluir.php?id=<?php echo $produto["id"] ?>">Excluir</a>
+                    </td>
+                </tr>
+
+            <?php } ?>
+
         </tbody>
+    </table>
 
 </body>
 </html>
