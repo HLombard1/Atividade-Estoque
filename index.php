@@ -1,4 +1,23 @@
 <?php
+include "infra/conexao.php";
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $nome = $_POST["nome"];
+    $categoria = $_POST["categoria"];
+    $descricao = $_POST["descricao"];
+    $preco = $_POST["preco"];
+    $quantidade_estoque = $_POST["quantidade_estoque"];
+    $data_validade = $_POST["data_validade"];
+
+    $sql = "INSERT INTO produtos (nome, categoria, descricao, preco, quantidade_estoque, data_validade) VALUES ('$nome', '$categoria', '$descricao', '$preco', '$quantidade_estoque', '$data_validade')";
+
+    if ($conexao->query($sql) === TRUE) {
+        echo "Produto cadastrado com sucesso!";
+    } else {
+        echo "Erro ao cadastrar produto: " . $conexao->error;
+    }
+}
+
+$produtos = $conexao->query("SELECT * FROM produtos");
 ?>
 
 <html lang="en">
@@ -56,6 +75,7 @@
     <table>
         <thead>
             <tr>
+                <th>ID</th>
                 <th>Nome</th>
                 <th>Categoria</th>
                 <th>Descrição</th>
@@ -65,18 +85,19 @@
             </tr>
         </thead> 
         <tbody>
-            <?php while ($brinquedo = mysqli_fetch_assoc($brinquedos)) { ?>
+            <?php while ($produto = mysqli_fetch_assoc($produtos)) { ?>
                     <tr>
-                        <td><?php echo $brinquedo["id"] ?></td>
-                        <td><?php echo $brinquedo["nome"] ?></td>
-                        <td><?php echo $brinquedo["categoria"] ?></td>
-                        <td><?php echo $brinquedo["descricao"] ?></td>
-                        <td><?php echo $brinquedo["preco"] ?></td>
-                        <td><?php echo $brinquedo["quantidade_estoque"] ?></td>
-                        
+                        <td><?php echo $produto["id"] ?></td>
+                        <td><?php echo $produto["nome"] ?></td>
+                        <td><?php echo $produto["categoria"] ?></td>
+                        <td><?php echo $produto["descricao"] ?></td>
+                        <td><?php echo $produto["preco"] ?></td>
+                        <td><?php echo $produto["quantidade_estoque"] ?></td>
+                        <td><?php echo $produto["data_validade"] ?></td>
+
                         <td>
-                            <a href="public/editar.php?id=<?php echo $brinquedo["id"] ?>">Editar</a>
-                            <a href="public/excluir.php?id=<?php echo $brinquedo["id"] ?>">Excluir</a>
+                            <a href="public/editar.php?id=<?php echo $produto["id"] ?>">Editar</a>
+                            <a href="public/excluir.php?id=<?php echo $produto["id"] ?>">Excluir</a>
                         </td>
                     </tr>
                 <?php } ?>
