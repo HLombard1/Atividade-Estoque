@@ -12,3 +12,7 @@ A tabela produtos possui os campos id, nome, categoria, descricao, preco, quanti
 A página inicial lista todos os produtos salvos em uma tabela e disponibiliza um formulário para o cadastro de novos itens. 
 Ao clicar na ação de editar em um item da lista, o sistema redireciona para a tela de alteração
 onde os dados atuais são carregados para atualização. A ação de excluir remove o registro selecionado.
+
+Caso de Uso:
+
+![alt text](<img/Caso de uso.png>)
