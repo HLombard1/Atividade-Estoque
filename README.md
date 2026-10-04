@@ -1,4 +1,5 @@
-----------------------------------------------------------------------------------------------------------------------------------------
+Caso de Uso:
+![alt text](<img/caso-de-uso.png>)----------------------------------------------------------------------------------------------------------
 
 Sistema de Gerenciamento de Estoque
 
@@ -13,6 +14,5 @@ A página inicial lista todos os produtos salvos em uma tabela e disponibiliza u
 Ao clicar na ação de editar em um item da lista, o sistema redireciona para a tela de alteração
 onde os dados atuais são carregados para atualização. A ação de excluir remove o registro selecionado.
 
-Caso de Uso:
 
-![alt text](<img/Caso de uso.png>)
+
